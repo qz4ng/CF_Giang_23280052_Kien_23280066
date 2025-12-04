@@ -10,24 +10,26 @@ class CleaningBasic:
     - missing values
     - outliers (giảm ảnh hưởng không loại bỏ ngày) 
     '''
+    #Tiền xử lý dữ liệu cơ bản: Missing value, Outliers, Scaling
     def __init__(self, data: pd.DataFrame):
         '''hàm khởi tạo'''
         self.data = data.copy() # không ảnh hưởng đến dữ liệu gốc 
     
-    def change_index(self):
-        '''
-        chuyển dữ liệu có dạng multiIndex thành dạng dataFrame chuẩn:
-        - lấy tên cổ phiếu từ multiIndex 
-        - đưa date thành DateTime index 
-        - loại bỏ multiIndex
-        '''
-        ticker_name = self.data.columns.get_level_values(1)[1] # lấy tên cổ phiếu 
-        self.data = self.data.reset_index() # đổi date thành index
-        self.data['Ticker'] = ticker_name # thêm cột tên cổ phiếu
-        self.data["Date"] = pd.to_datetime(self.data["Date"]) # đảm bảo cột thời gian
-        self.data = self.data.set_index('Date').sort_index() # sắp xếp thời gian theo thứ tự tăng dần
-        self.data.columns = self.data.columns.get_level_values(0) # loại bỏ multiIndex
-        return self.data
+#   def change_index(self):
+#         '''
+#         chuyển dữ liệu có dạng multiIndex thành dạng dataFrame chuẩn:
+#         - lấy tên cổ phiếu từ multiIndex 
+#         - đưa date thành DateTime index 
+#         - loại bỏ multiIndex
+#         '''
+#         ticker_name = self.data.columns.get_level_values(1)[1] # lấy tên cổ phiếu 
+#         self.data = self.data.reset_index() # đổi date thành index
+#         self.data['Ticker'] = ticker_name # thêm cột tên cổ phiếu
+#         self.data["Date"] = pd.to_datetime(self.data["Date"]) # đảm bảo cột thời gian
+#         self.data = self.data.set_index('Date').sort_index() # sắp xếp thời gian theo thứ tự tăng dần
+#         self.data.columns = self.data.columns.get_level_values(0) # loại bỏ multiIndex
+#         return self.data
+## --- xoá hàm change_index vì không cần nha bên kia t làm rồi ---
 
     # missing values 
     def fill_missing_values(self, method = 'linear'):
@@ -71,7 +73,7 @@ class CleaningBasic:
         self.data[column + '_scaled_IQR'] = (self.data[column] - Q1)/ IQR
         return self.data
     
-    def log_transform(self, column):
+    def feature_log_transform(self, column):
         '''chuẩn hóa dữ liệu bằng phương pháp log'''
         self.data[column + '_scaled_log'] = np.log1p(self.data[column])
         return self.data
