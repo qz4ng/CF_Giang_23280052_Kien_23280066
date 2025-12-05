@@ -17,7 +17,7 @@ def run_system():
     print("="*50)
 
     
-    # BƯỚC 1: ĐI CHỢ (Tải & Xử lý dữ liệu)
+    # BƯỚC 1: (Tải & Xử lý dữ liệu)
     
     print("\n[1/5] Đang tải và xử lý dữ liệu...")
     
@@ -32,7 +32,7 @@ def run_system():
     print(f"   => Đã chuẩn bị xong dữ liệu sạch cho {len(processed_data)} mã.")
 
     
-    # BƯỚC 2: SƠ CHẾ (Tính toán chỉ báo kỹ thuật)
+    # BƯỚC 2: (Tính toán chỉ báo kỹ thuật)
     
     print("\n[2/5]  Đang tính toán chỉ báo (RSI, MACD, Bollinger)...")
     
