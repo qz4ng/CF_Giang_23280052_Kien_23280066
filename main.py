@@ -10,6 +10,7 @@ from model_layer.data_handler import DataHandler
 from model_layer.regressor import LinearTrader
 from strategy_layer.signals import SignalLogic
 from strategy_layer.backtester import Backtester
+from strategy_layer.visualizer import Visualizer
 
 def run_system():
     print("\n" + "="*50)
@@ -98,6 +99,9 @@ def run_system():
     # Đánh giá năng lực học tập
     predictions = model.predict(X_test)
     rmse, r2 = model.evaluate(y_test, predictions)
+#vẽ
+    viz = Visualizer()
+    viz.plot_model_fit(y_test, predictions)
 
     
     # BƯỚC 5: CHIẾN THUẬT & BACKTEST (Chạy thử nghiệm)
@@ -126,6 +130,12 @@ def run_system():
     df_result = backtester.calculate_pnl(df_signals, original_spread_series)
     final_pnl, sharpe = backtester.evaluate_performance(df_result)
     
+    
+    
+    print("\n[6/6] Đang vẽ biểu đồ kết quả...")
+    
+    viz = Visualizer()
+    viz.plot_performance(df_result)
     print("\n" + "="*10)
     print("Hoàn tất")
     print("="*50)
