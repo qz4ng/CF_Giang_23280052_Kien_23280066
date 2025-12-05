@@ -1,7 +1,7 @@
 # TÍNH TOÁN TÀI CHÍNH
-Đồ án giữa kỳ môn tính toán tài chính 
-Mục đích: Ứng dụng máy học và phân tích tài chính để xây dựng hệ thống giao dịch định tính nhằm tạo tín hiệu giao dịch từ dữ liệu cổ phiếu trên Yahoo Finance
-Kết hợp giữa: momentum, machine learning và pair trading để tạo tín hiệu giao dịch 
+Đồ án giữa kỳ môn tính toán tài chính \
+Mục đích: Ứng dụng máy học và phân tích tài chính để xây dựng hệ thống giao dịch định tính nhằm tạo tín hiệu giao dịch từ dữ liệu cổ phiếu trên Yahoo Finance\
+Kết hợp giữa: momentum, machine learning và pair trading để tạo tín hiệu giao dịch \
 Pipeline: DataLoader -> DataProcessor -> Feature_layer -> Model_layer -> Strategy_layer 
 ## Một số kiến thức được sử dụng
 1. **Kiểm tra tính dừng của chuỗi thời gian**\
@@ -33,11 +33,11 @@ Nếu giá trị p-value < 0.05 thì ta bác bỏ H0\
 Khi đó, hệ thống đánh dấu và lưu lại cặp tài sản này để tiếp tục tính toán spread, z-score và đưa tín hiệu giao dịch.
 Spread = khoảng cách giá giữa 2 cổ phiếu được hedge bằng β\
 Z-score = chuẩn hóa spread so với trung bình và độ lệch chuẩn -> dùng để tạo tín hiệu mua/bán.\
-Công thức spread: 
+Công thức spread: \
 $$
 spread_t = Price_A - \beta \cdot Price_B
 $$
-Công thức z-score:
+Công thức z-score:\
 $$
 z = \frac{spread - \mu}{\sigma}
 $$
@@ -47,7 +47,7 @@ $$
 - Biên độ càng lớn thì xu hướng càng mạnh
 6. **MACD (Moving Average Convergence Divergence)**: đo sức mạnh và độ thay đổi của xu hướng 
 7. **Bollinger**:
-Công thức: 
+Công thức: \
 $$
 Upper = SMA + 2\sigma, \qquad Lower = SMA - 2\sigma
 $$
@@ -84,7 +84,13 @@ pip install -r requirements.txt
 - logic tạo tín hiệu 
 - đánh giá hiệu suất của hệ thống và lợi nhuận 
 - plot
-## Kết quả:
+# Kết quả:
+*Đánh giá mô hình*
 ![Kết quả mô hình](plots/evaluate_model1.png)
 ![Plot](plots/evaluate_model2.png)
+*Hiệu suất mô hình*
+![Kết quả mô hình](plots/backtest.png)
+![Plot](plots/backtest_result.png)
 ## Thành viên nhóm 
+Trần Trung Kiên 23280066\
+Trương Thị Quỳnh Giang 23280052
