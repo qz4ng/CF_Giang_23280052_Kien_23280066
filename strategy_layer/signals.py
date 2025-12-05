@@ -12,12 +12,21 @@ class SignalLogic:
         self.exit_threshold = config.Z_EXIT_THRESHOLD   # Ngưỡng thoát lệnh (0.0)
         self.stop_loss = config.Z_STOP_LOSS             # Ngưỡng cắt lỗ (3.5)
 
-    def generate_signals(self, df):
+    def generate_signals(self, df, col_name='Spread_Z'):
         """
         Input: DataFrame có cột 'Spread_Z' (Giá trị thực hoặc Dự báo).
         Output: DataFrame có thêm cột 'Signal' (1: Long, -1: Short, 0: Flat).
         """
         df = df.copy()
+        # Đảm bảo cột mục tiêu là số (Sửa để dùng col_name thay vì cứng nhắc 'Spread_Z')
+        # fix lỗi duplicate columns bằng cách chỉ lấy cột chúng ta cần
+        if isinstance(df[col_name], pd.DataFrame):
+            print(f"Cảnh báo: Phát hiện 2 cột tên '{col_name}'. Đang lấy cột cuối cùng.")
+            series_z = df[col_name].iloc[:, -1] # Lấy cột mới nhất (thường là cái vừa rename)
+        else:
+            series_z = df[col_name]
+
+        series_z = pd.to_numeric(series_z, errors='coerce')
         
         # Tạo cột Signal mặc định là 0 (Không làm gì)
         df['Signal'] = 0

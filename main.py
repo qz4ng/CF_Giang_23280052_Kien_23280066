@@ -34,7 +34,7 @@ def run_system():
     
     # BƯỚC 2: SƠ CHẾ (Tính toán chỉ báo kỹ thuật)
     
-    print("\n[2/5] 🛠️ Đang tính toán chỉ báo (RSI, MACD, Bollinger)...")
+    print("\n[2/5]  Đang tính toán chỉ báo (RSI, MACD, Bollinger)...")
     
     trend = TrendIndicators()
     mom = MomentumIndicators()
@@ -51,8 +51,8 @@ def run_system():
         # Thêm biến động
         df = vol.add_bollinger_bands(df)
         
-        # Lưu ngược lại vào dictionary (bỏ các dòng NaN do tính toán)
-        processed_data[ticker] = df.dropna()
+        # Lưu ngược lại vào dictionary (Tính toán thì cứ tính, nhưng không vội vứt dữ liệu đi. Khi nào cần so sánh cặp nào thì mới cắt cặp đó cho khớp nhau.
+        processed_data[ticker] = df
 
     
     # BƯỚC 3: TÌM CẶP ĐÔI HOÀN HẢO (Pair Selection)
@@ -116,7 +116,7 @@ def run_system():
     # Sinh tín hiệu Mua/Bán dựa trên Z-score DỰ BÁO
     sig_gen = SignalLogic()
     # Ta dùng cột Forecast để ra quyết định
-    df_signals = sig_gen.generate_signals(df_backtest.rename(columns={'Spread_Z_Forecast': 'Spread_Z'}))
+    df_signals = sig_gen.generate_signals(df_backtest, col_name='Spread_Z_Forecast')
     
     # Tính toán Lãi/Lỗ
     backtester = Backtester()

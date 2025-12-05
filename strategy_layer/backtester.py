@@ -54,7 +54,7 @@ class Backtester:
             # Nhân căn(252) để quy đổi ra năm (năm có 252 ngày giao dịch)
             sharpe_ratio = (daily_returns.mean() / daily_returns.std()) * np.sqrt(252)
         
-        print(f"💰 KẾT QUẢ BACKTEST:")
+        print(f"----KẾT QUẢ BACKTEST:")
         print(f"   - Tổng Lãi/Lỗ: {total_profit:.4f} điểm Spread")
         print(f"   - Số lần giao dịch: {num_trades}")
         print(f"   - Sharpe Ratio: {sharpe_ratio:.2f}")

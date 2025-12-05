@@ -39,7 +39,7 @@ class LinearTrader:
         # R2 Score: Độ chính xác (Càng gần 1 càng tốt, âm là dự đoán bừa)
         r2 = r2_score(y_true, y_pred)
         
-        print(f"📊 Kết quả đánh giá Model:")
+        print(f" Kết quả đánh giá Model:")
         print(f"   - RMSE (Sai số trung bình): {rmse:.4f}")
         print(f"   - R2 Score (Độ phù hợp): {r2:.4f}")
         

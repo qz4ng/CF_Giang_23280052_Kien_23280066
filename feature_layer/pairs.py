@@ -22,7 +22,7 @@ class PairsIndicators:
         best_pvalue = 1.0
         best_pair = None
         
-        print(f"🔍 Đang quét đồng tích hợp cho {len(tickers)} mã cổ phiếu...")
+        print(f" Đang quét đồng tích hợp cho {len(tickers)} ")
 
         # Tạo tất cả tổ hợp cặp đôi (VD: VCB-BID, VCB-CTG...)
         for t1, t2 in combinations(tickers, 2):
@@ -30,18 +30,26 @@ class PairsIndicators:
             s1 = data_dict[t1]['Adj Close']
             s2 = data_dict[t2]['Adj Close']
             
-            # Kiểm tra độ dài, nếu lệch nhau quá nhiều thì bỏ qua
-            min_len = min(len(s1), len(s2))
-            if min_len < 100: continue # Cần ít nhất 100 ngày để kiểm tra
+            # 1. Ghép 2 chuỗi lại thành 1 DataFrame
+            df_temp = pd.concat([s1, s2], axis=1)
             
-            s1 = s1.iloc[-min_len:]
-            s2 = s2.iloc[-min_len:]
+            # 2. Xóa các dòng mà 1 trong 2 bị NaN (do chỉ báo indicator gây ra)
+            df_temp = df_temp.dropna()
+            
+            # 3. Kiểm tra nếu dữ liệu còn lại quá ít thì bỏ qua
+            if len(df_temp) < 100: 
+                continue
+                
+            # 4. Tách ra lại để test
+            clean_s1 = df_temp.iloc[:, 0]
+            clean_s2 = df_temp.iloc[:, 1]
+            # --------------------------------
 
             # KIỂM ĐỊNH COINTEGRATION (Engle-Granger Test)
             # Null Hypothesis: Không đồng tích hợp.
             # Nếu p-value < 0.05 => Bác bỏ Null => Có đồng tích hợp.
             try:
-                score, pvalue, _ = coint(s1, s2)
+                score, pvalue, _ = coint(clean_s1, clean_s2)
                 if pvalue < best_pvalue:
                     best_pvalue = pvalue
                     best_pair = (t1, t2)
