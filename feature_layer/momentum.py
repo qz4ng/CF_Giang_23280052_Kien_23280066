@@ -4,10 +4,10 @@ import config
 
 class MomentumIndicators:
     """
-    Các chỉ báo đo sức mạnh của đà tăng/giảm (Độ 'hăng máu' của thị trường).
+    Các chỉ báo đo sức mạnh của đà tăng/giảm.
     """
     def __init__(self):
-        self.rsi_window = config.RSI_WINDOW
+        self.rsi_window = config.RSI_WINDOW # số ngày tính RSI
 
     def add_rsi(self, df):
         """
@@ -37,6 +37,6 @@ class MomentumIndicators:
         """
         df = df.copy()
         prev_price = df['Adj Close'].shift(periods)
-        # Giá thay đổi bao nhiêu % so với 5 ngày trước?
+        # Giá thay đổi bao nhiêu % so với 5 ngày trước
         df['ROC'] = ((df['Adj Close'] - prev_price) / prev_price) * 100
         return df.fillna(0)

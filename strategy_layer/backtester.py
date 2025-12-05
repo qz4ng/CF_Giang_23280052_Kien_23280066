@@ -17,18 +17,18 @@ class Backtester:
         """
         df = df.copy()
         
-        # 1. Tính thay đổi giá của Spread hôm nay so với hôm qua
+        # Tính thay đổi giá của Spread hôm nay so với hôm qua
         # Spread tăng hay giảm?
         df['Spread_Change'] = original_spread - original_spread.shift(1)
         
-        # 2. Tính Lợi nhuận chiến lược
+        # Tính Lợi nhuận chiến lược
         # Lợi nhuận = Vị thế hôm qua * Mức thay đổi giá hôm nay
         # Nếu đang Long (1) và giá tăng (+) -> Lãi (+)
         # Nếu đang Short (-1) và giá giảm (-) -> Lãi (+) (Âm nhân Âm ra Dương)
         # Nếu đang Short (-1) và giá tăng (+) -> Lỗ (-)
         df['Strategy_PnL'] = df['Position'] * df['Spread_Change']
         
-        # 3. Tính tổng lãi lỗ tích lũy (Cumulative PnL)
+        # Tính tổng lãi lỗ tích lũy (Cumulative PnL)
         # Để vẽ biểu đồ tài sản tăng trưởng thế nào
         df['Cumulative_PnL'] = df['Strategy_PnL'].cumsum()
         
@@ -54,14 +54,14 @@ class Backtester:
             # Nhân căn(252) để quy đổi ra năm (năm có 252 ngày giao dịch)
             sharpe_ratio = (daily_returns.mean() / daily_returns.std()) * np.sqrt(252)
         
-        print(f"💰 KẾT QUẢ BACKTEST:")
-        print(f"   - Tổng Lãi/Lỗ: {total_profit:.4f} điểm Spread")
-        print(f"   - Số lần giao dịch: {num_trades}")
-        print(f"   - Sharpe Ratio: {sharpe_ratio:.2f}")
+        print(f"KẾT QUẢ BACKTEST:")
+        print(f"- Tổng Lãi/Lỗ: {total_profit:.4f} điểm Spread")
+        print(f"- Số lần giao dịch: {num_trades}")
+        print(f"- Sharpe Ratio: {sharpe_ratio:.2f}")
         
         if total_profit > 0:
-            print("   => Chiến thuật CÓ LỜI ")
+            print("Chiến thuật CÓ LỜI")
         else:
-            print("   => Chiến thuật THUA LỖ ")
+            print("Chiến thuật THUA LỖ")
             
         return total_profit, sharpe_ratio
