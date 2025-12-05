@@ -4,16 +4,16 @@ Mục đích: Ứng dụng máy học và phân tích tài chính để xây d�
 Kết hợp giữa:
 - Phân tích định lượng cổ điển: momentum 
 ## Một số kiến thức được sử dụng
-1. Kiểm tra tính dừng của chuỗi thời gian\
+1. Kiểm tra tính dừng của chuỗi thời gian
 Trong mô hình dự báo tài chính và phân tích chuỗi thời gian, việc đánh giá tính dừng là bước quan trọng để tránh hiện tượng hồi quy giả (spurious regression).\
-Nhóm sử dụng kiểm định Augmented Dickey–Fuller (ADF) để kiểm tra tính dừng của chuỗi giá:\
-- Giả thuyết gốc (H0): Chuỗi thời gian không dừng\
-- Giả thuyết đối (H1): Chuỗi thời gian dừng\
-Nếu giá trị p-value < 0.05, ta bác bỏ H0 và kết luận rằng chuỗi thời gian có tính dừng.\
-Trong trường hợp dữ liệu không dừng, dự án áp dụng các kỹ thuật chuyển đổi phổ biến như:\
-- Log return transformation\
-- First differencing\
-nhằm đưa dữ liệu về trạng thái dừng (trung bình, phương sai và hiệp phương sai không đổi) trước khi đưa vào mô hình máy học hoặc thuật toán giao dịch.\
+Nhóm sử dụng kiểm định Augmented Dickey–Fuller (ADF) để kiểm tra tính dừng của chuỗi giá:
+- Giả thuyết gốc (H0): Chuỗi thời gian không dừng
+- Giả thuyết đối (H1): Chuỗi thời gian dừng
+Nếu giá trị p-value < 0.05, ta bác bỏ H0 và kết luận rằng chuỗi thời gian có tính dừng.
+Trong trường hợp dữ liệu không dừng, dự án áp dụng các kỹ thuật chuyển đổi phổ biến như:
+- Log return transformation
+- First differencing
+nhằm đưa dữ liệu về trạng thái dừng (trung bình, phương sai và hiệp phương sai không đổi) trước khi đưa vào mô hình máy học hoặc thuật toán giao dịch.
 2. RSI: Chỉ báo RSI so sánh tỷ lệ tương quan giữa số ngày tăng giá so với số ngày giảm giá với dữ liệu giao động trong khoảng từ 0 đến 100 (mức trung bình là 50)
 3. ROC: ROC được tính bằng cách so sánh giá hiện tại với giá tại "n" khoảng thời gian trước. Biểu đồ tạo thành một bộ dao động dao động trên và dưới đường 0 khi ROC chuyển từ tích cực sang tiêu cực
 4. Tìm cặp đồng tích hợp: dùng kiểm định cointegration
