@@ -17,7 +17,7 @@ class LinearTrader:
         Máy tính tìm ra công thức y = ax + b phù hợp nhất.
         """
         self.model.fit(X_train, y_train)
-        print(" Mô hình đã học xong!")
+        print("Mô hình đã học xong!")
 
     def predict(self, X_data):
         """
@@ -28,7 +28,7 @@ class LinearTrader:
 
     def evaluate(self, y_true, y_pred):
         """
-        Chấm điểm mô hình (Thi cử).
+        đánh giá mô hình.
         """
         # MSE: Sai số bình phương trung bình (Càng nhỏ càng tốt)
         mse = mean_squared_error(y_true, y_pred)

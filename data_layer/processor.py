@@ -6,8 +6,8 @@ import config  # Lấy tham số cấu hình (OUTLIER_THRESH)
 
 class DataProcessor:
     """
-    Class xử lý trung tâm:
-    1. Làm sạch (Cleaning): Sửa lỗi Index, điền dữ liệu thiếu.
+    Class xử lý:
+    1. Làm sạch (Cleaning): điền dữ liệu thiếu.
     2. Biến đổi (Transformation): Tính Log Returns (đưa về chuỗi dừng).
     3. Lọc nhiễu (Denoising): Kẹp giá trị (Winsorization).
     4. Đồng bộ (Alignment): Cắt dữ liệu theo khung thời gian chung.
@@ -15,20 +15,10 @@ class DataProcessor:
     def __init__(self):
         pass
 
-    def _flatten_columns(self, df):
-        """
-        [Fix lỗi Yfinance] Chuyển MultiIndex columns về dạng đơn.
-        VD: ('Adj Close', 'VCB.VN') -> 'Adj Close'
-        """
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-        return df
-
     def _fill_missing_values(self, df):
         """
-        [Từ CleaningBasic] Điền dữ liệu thiếu.
         - Dùng 'time' interpolation: Tốt nhất cho Time Series liên tục.
-        - Dùng ffill/bfill: Để trám nốt các lỗ hổng ở đầu/cuối chuỗi.
+        - Dùng ffill/bfill: Để điền những chỗ khuyết của dữ liệu 
         """
         # Interpolate theo thời gian (tuyến tính)
         df = df.interpolate(method='time', limit_direction='both')
@@ -38,12 +28,10 @@ class DataProcessor:
 
     def _compute_log_returns(self, df):
         """
-        [Từ CleaningTimeSeries] Tính Log Returns.
+        Tính Log Returns.
         Công thức: R_t = ln(P_t / P_{t-1})
         Lợi ích: Có tính cộng, phân phối gần chuẩn hơn Simple Return.
         """
-        df = self._flatten_columns(df)
-        
         # Ưu tiên lấy Adj Close, nếu không có thì lấy Close
         price_col = 'Adj Close' if 'Adj Close' in df.columns else 'Close'
         
@@ -58,7 +46,7 @@ class DataProcessor:
 
     def _winsorize_outliers(self, df, col_name='Log_Return', threshold=3.0):
         """
-        [Từ CleaningBasic] Xử lý nhiễu bằng Z-score Clipping.
+        Xử lý nhiễu bằng Z-score Clipping.
         Thay vì xóa dòng (mất dữ liệu ngày), ta kẹp giá trị về biên (Threshold).
         """
         if col_name not in df.columns:
@@ -78,8 +66,9 @@ class DataProcessor:
 
     def _check_stationarity(self, df, col_name='Log_Return'):
         """
-        [Từ CleaningTimeSeries] Kiểm tra tính dừng (ADF Test).
+        Kiểm tra tính dừng (ADF Test).
         Chỉ in ra cảnh báo để User biết, không chặn luồng chạy.
+        Kết quả mong đợi: chuỗi dừng vì log_return đã được diff
         """
         if col_name not in df.columns: return
 
@@ -87,13 +76,13 @@ class DataProcessor:
             result = adfuller(df[col_name].dropna())
             p_value = result[1]
             if p_value > 0.05:
-                print(f"⚠️ Cảnh báo: {col_name} có thể KHÔNG DỪNG (p-value={p_value:.4f})")
+                print(f"Cảnh báo: {col_name} có thể KHÔNG DỪNG (p-value={p_value:.4f})")
         except Exception:
             pass # Bỏ qua nếu lỗi tính toán (dữ liệu quá ngắn)
 
     def _align_data(self, data_dict):
         """
-        [Logic cốt lõi] Đồng bộ thời gian giữa các mã.
+        Đồng bộ thời gian giữa các mã.
         Chỉ giữ lại những ngày mà TẤT CẢ các mã đều có dữ liệu.
         """
         if not data_dict: return {}
@@ -111,7 +100,7 @@ class DataProcessor:
             valid_tickers.append(ticker)
         
         if common_index is None or len(common_index) == 0:
-            print("❌ Lỗi: Không tìm thấy ngày giao dịch chung giữa các mã!")
+            print("Lỗi: Không tìm thấy ngày giao dịch chung giữa các mã!")
             return {}
 
         # Cắt dữ liệu theo index chung
@@ -119,36 +108,35 @@ class DataProcessor:
         for t in valid_tickers:
             aligned_dict[t] = data_dict[t].loc[common_index].copy()
             
-        print(f"-> Đã đồng bộ dữ liệu: {len(common_index)} phiên giao dịch chung.")
+        print(f"Đã đồng bộ dữ liệu: {len(common_index)} phiên giao dịch chung.")
         return aligned_dict
 
-    def process_all(self, raw_data_dict):
+    def process_all(self, raw_data_dict: dict) -> dict:
         """
         Hàm Main gọi bởi main.py.
-        Pipeline: Fix lỗi -> Fill NA -> Log Return -> Lọc Nhiễu -> Check Dừng -> Đồng bộ.
+        Pipeline: Fill NA -> Log Return -> Lọc Nhiễu -> Check Dừng -> Đồng bộ.
         """
         processed_temp = {}
         
-        print("⚙️ Đang xử lý dữ liệu (Cleaning & Transforming)...")
+        print("Đang xử lý dữ liệu (Cleaning & Transforming)...")
 
         for ticker, df in raw_data_dict.items():
-            # 1. Fix lỗi cột & Fill NA
-            df = self._flatten_columns(df)
+            # Fill NA
             df = self._fill_missing_values(df)
             
-            # 2. Tính Log Return
+            # Tính Log Return
             df = self._compute_log_returns(df)
             
             if not df.empty:
-                # 3. Lọc nhiễu (Outliers)
+                # Lọc nhiễu (Outliers)
                 df = self._winsorize_outliers(df, threshold=config.OUTLIER_THRESH)
                 
-                # 4. Kiểm tra tính dừng (Optional check)
+                # Kiểm tra tính dừng (Optional check)
                 self._check_stationarity(df)
                 
                 processed_temp[ticker] = df
         
-        # 5. Đồng bộ thời gian (Bước quan trọng nhất cho Pair Trading)
+        # Đồng bộ thời gian (Bước quan trọng nhất cho Pair Trading)
         final_data = self._align_data(processed_temp)
         
         return final_data
