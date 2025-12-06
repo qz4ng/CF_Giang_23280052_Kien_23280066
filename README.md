@@ -9,24 +9,20 @@ Trong mô hình dự báo tài chính và phân tích chuỗi thời gian, việ
 Nhóm sử dụng kiểm định Augmented Dickey–Fuller (ADF) để kiểm tra tính dừng của chuỗi giá (Adj Close):
 - Giả thuyết gốc (H0): Chuỗi thời gian không dừng
 - Giả thuyết đối (H1): Chuỗi thời gian dừng
-Nếu giá trị p-value < 0.05, ta bác bỏ H0 và kết luận rằng chuỗi thời gian có tính dừng.
+Nếu giá trị p-value < 0.05, ta bác bỏ H0 và kết luận rằng chuỗi thời gian có tính dừng.\
 Trong trường hợp dữ liệu không dừng, dự án áp dụng các kỹ thuật chuyển đổi phổ biến như:
 - Log return transformation
 - First differencing
 nhằm đưa dữ liệu về trạng thái dừng (trung bình, phương sai và hiệp phương sai không đổi) trước khi đưa vào mô hình máy học hoặc thuật toán giao dịch.
 2. **RSI (Relative Strength Index)**: \
 Chỉ báo RSI so sánh tỷ lệ tương quan giữa số ngày tăng giá so với số ngày giảm giá với dữ liệu giao động trong khoảng từ 0 đến 100 (mức trung bình là 50)\
-Công thức: 
-$$
-RSI = 100 - \frac{100}{1 + RS}, \quad RS = \frac{AvgGain}{AvgLoss}
-$$
+Công thức: \
+![công thức RS_RSI](plots/RS_RSI.png)
 3. **ROC (Rate of Change)**:\
  ROC được tính bằng cách so sánh giá hiện tại với giá tại "n" khoảng thời gian trước. Biểu đồ tạo thành một bộ dao động dao động trên và dưới đường 0 khi ROC chuyển từ tích cực sang tiêu cực
  Công thức:
-$$
-ROC = \frac{Price_t - Price_{t-n}}{Price_{t-n}} \times 100
-$$
-4. **Tìm cặp đồng tích hợp**: dùng kiểm định cointegration: xác định xem có mối tương quan giữa một số chuỗi thời gian trong dài hạn hay không. Trong hệ thống, mình đang sử dụng chuỗi dữ liệu một chiều, ở đây nhóm dùng phương pháp Engle-Granger Two-Step để kiểm định. \
+![công thức roc](plots/roc.png)
+4. **Tìm cặp đồng tích hợp**: dùng kiểm định cointegration: xác định xem có mối tương quan giữa một số chuỗi thời gian trong dài hạn hay không. Trong hệ thống, mình đang sử dụng chuỗi dữ liệu một chiều, ở đây nhóm dùng phương pháp Engle-Granger Two-Step để kiểm định. 
 - Gỉa thuyết gốc (H0): không đồng tích hợp
 - Gỉa thuyết đối (H1): có đồng tích hợp 
 Nếu giá trị p-value < 0.05 thì ta bác bỏ H0\ 
@@ -34,13 +30,9 @@ Khi đó, hệ thống đánh dấu và lưu lại cặp tài sản này để t
 Spread = khoảng cách giá giữa 2 cổ phiếu được hedge bằng β\
 Z-score = chuẩn hóa spread so với trung bình và độ lệch chuẩn -> dùng để tạo tín hiệu mua/bán.\
 Công thức spread: \
-$$
-spread_t = Price_A - \beta \cdot Price_B
-$$
+![công thức Spread](plots/spread.png)
 Công thức z-score:\
-$$
-z = \frac{spread - \mu}{\sigma}
-$$
+![công thức zscore](plots/zscore.png)
 5. **Khoảng cách tới SMA**: đo xu hướng dài hạn \
 - Nếu đường dist_sma > 0 -> giá đang nằm trên đường xu hướng -> thị trường tăng 
 - Nếu đường dist_sma < 0 -> giá đang nằm dưới đường xu hướng -> thị trường giảm 
@@ -48,8 +40,8 @@ $$
 6. **MACD (Moving Average Convergence Divergence)**: đo sức mạnh và độ thay đổi của xu hướng 
 7. **Bollinger**:
 Công thức: \
-$$ Upper = SMA + 2\sigma, \qquad Lower = SMA - 2\sigma $$
-## Cách cài đặt và pipeline
+![công thức BB](plots/bb.png)
+## Cách cài đặt và mục tiêu 
 ### Cách cài đặt 
 1. Clone repo
 ```bash
@@ -60,7 +52,7 @@ cd CF_Giang_23280052_Kien_23280066
 ```bash
 pip install -r requirements.txt
 ```
-### Pipeline   
+### Mục tiêu  
 1. DataLoader: 
 - tải dữ liệu từ Yahoo Finance 
 - xử lý index và chuẩn hóa định dạng DateTime
