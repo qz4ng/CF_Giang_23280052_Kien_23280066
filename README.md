@@ -19,8 +19,8 @@ Chỉ báo RSI so sánh tỷ lệ tương quan giữa số ngày tăng giá so v
 Công thức: \
 ![công thức RS_RSI](plots/RS_RSI.png)
 3. **ROC (Rate of Change)**:\
- ROC được tính bằng cách so sánh giá hiện tại với giá tại "n" khoảng thời gian trước. Biểu đồ tạo thành một bộ dao động dao động trên và dưới đường 0 khi ROC chuyển từ tích cực sang tiêu cực
- Công thức:
+ROC được tính bằng cách so sánh giá hiện tại với giá tại "n" khoảng thời gian trước. Biểu đồ tạo thành một bộ dao động dao động trên và dưới đường 0 khi ROC chuyển từ tích cực sang tiêu cực\
+Công thức:
 ![công thức roc](plots/roc.png)
 4. **Tìm cặp đồng tích hợp**: dùng kiểm định cointegration: xác định xem có mối tương quan giữa một số chuỗi thời gian trong dài hạn hay không. Trong hệ thống, mình đang sử dụng chuỗi dữ liệu một chiều, ở đây nhóm dùng phương pháp Engle-Granger Two-Step để kiểm định. 
 - Gỉa thuyết gốc (H0): không đồng tích hợp
@@ -30,15 +30,15 @@ Khi đó, hệ thống đánh dấu và lưu lại cặp tài sản này để t
 Spread = khoảng cách giá giữa 2 cổ phiếu được hedge bằng β\
 Z-score = chuẩn hóa spread so với trung bình và độ lệch chuẩn -> dùng để tạo tín hiệu mua/bán.\
 Công thức spread: \
-![công thức Spread](plots/spread.png)
+![công thức Spread](plots/spread.png)\
 Công thức z-score:\
 ![công thức zscore](plots/zscore.png)
-5. **Khoảng cách tới SMA**: đo xu hướng dài hạn \
+5. **Khoảng cách tới SMA**: đo xu hướng dài hạn 
 - Nếu đường dist_sma > 0 -> giá đang nằm trên đường xu hướng -> thị trường tăng 
 - Nếu đường dist_sma < 0 -> giá đang nằm dưới đường xu hướng -> thị trường giảm 
 - Biên độ càng lớn thì xu hướng càng mạnh
 6. **MACD (Moving Average Convergence Divergence)**: đo sức mạnh và độ thay đổi của xu hướng 
-7. **Bollinger**:
+7. **Bollinger**:\
 Công thức: \
 ![công thức BB](plots/bb.png)
 ## Cách cài đặt và mục tiêu 
