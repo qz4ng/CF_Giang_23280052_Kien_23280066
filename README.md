@@ -48,9 +48,7 @@ $$
 6. **MACD (Moving Average Convergence Divergence)**: đo sức mạnh và độ thay đổi của xu hướng 
 7. **Bollinger**:
 Công thức: \
-$$
-Upper = SMA + 2\sigma, \qquad Lower = SMA - 2\sigma
-$$
+$$ Upper = SMA + 2\sigma, \qquad Lower = SMA - 2\sigma $$
 ## Cách cài đặt và pipeline
 ### Cách cài đặt 
 1. Clone repo
@@ -85,12 +83,15 @@ pip install -r requirements.txt
 - đánh giá hiệu suất của hệ thống và lợi nhuận 
 - plot
 # Kết quả:
-*Đánh giá mô hình*
 ![Kết quả mô hình](plots/evaluate_model1.png)
 ![Plot](plots/evaluate_model2.png)
-*Hiệu suất mô hình*
+
+*Đánh giá mô hình*
+
 ![Kết quả mô hình](plots/backtest.png)
 ![Plot](plots/backtest_result.png)
+
+*Hiệu suất mô hình*
 ## Thành viên nhóm 
 Trần Trung Kiên 23280066\
 Trương Thị Quỳnh Giang 23280052
