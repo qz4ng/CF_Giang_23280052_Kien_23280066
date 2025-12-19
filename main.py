@@ -14,7 +14,7 @@ from strategy_layer.visualizer import Visualizer
 
 def run_system():
     print("\n" + "="*50)
-    print(" HỆ THỐNG QUANT TRADING BẮT ĐẦU KHỞI ĐỘNG")
+    print(" Bắt đầu")
     print("="*50)
 
     
