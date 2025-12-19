@@ -8,7 +8,7 @@ class SignalLogic:
     Nguyên tắc: Mean Reversion (Đảo chiều về trung bình).
     """
     def __init__(self):
-        self.entry_threshold = config.Z_ENTRY_THRESHOLD # Ngưỡng vào lệnh (2.0)
+        self.entry_threshold = config.Z_ENTRY_THRESHOLD # Ngưỡng vào lệnh (1.0)
         self.exit_threshold = config.Z_EXIT_THRESHOLD   # Ngưỡng thoát lệnh (0.0)
         self.stop_loss = config.Z_STOP_LOSS             # Ngưỡng cắt lỗ (3.5)
 

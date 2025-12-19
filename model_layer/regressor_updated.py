@@ -13,7 +13,7 @@ class RandomForestTrader:
         # Cấu hình Random Forest (Có thể chỉnh trong config.py)
         self.model = RandomForestRegressor(
             n_estimators=getattr(config, 'RF_N_ESTIMATORS', 200), # Mặc định 100 cây nhiều thì càng tốt nhma lâu
-            max_depth=getattr(config, 'RF_MAX_DEPTH', 5),       # Độ sâu tối đa
+            max_depth=getattr(config, 'RF_MAX_DEPTH', 15),       # Độ sâu tối đa
             min_samples_leaf=10,
             random_state=42,
             n_jobs=-1
@@ -28,13 +28,26 @@ class RandomForestTrader:
         # Không in "Học xong" liên tục để đỡ rác log khi chạy nhiều cặp
         
     def predict(self, X_data):
-        return self.model.predict(X_data)
+        raw_pred = self.model.predict(X_data)
+        
+        # [MỚI] Kỹ thuật Clipping:
+        # Ép giá trị dự báo chỉ được nằm trong khoảng [-3, 3] (vùng Z-score hợp lý)
+        # Nếu AI dự báo 10, ta ép xuống 3. Điều này giảm RMSE cực mạnh.
+        clipped_pred = np.clip(raw_pred, -3.0, 3.0)
+        
+        return clipped_pred
 
-    def evaluate(self, y_true, y_pred, pair_name="Unknown"):
+    def evaluate(self, y_true, y_pred, pair_name="Unknown"):    
         rmse = np.sqrt(mean_squared_error(y_true, y_pred))
         r2 = r2_score(y_true, y_pred)
+        correct_direction = np.sign(y_pred) == np.sign(y_true)
+        hit_rate = np.mean(correct_direction) * 100
         
-        print(f"   Evaluation [{pair_name}]: RMSE={rmse:.4f}, R2={r2:.4f}")
+        print(f"   Evaluation [{pair_name}]:")
+        print(f"     - RMSE: {rmse:.4f}")
+        print(f"     - R2 Score: {r2:.4f}")
+        print(f"     - Directional Accuracy (Đoán đúng chiều): {hit_rate:.2f}%") # Quan trọng
+        
         return rmse, r2
 
     def show_feature_importance(self):

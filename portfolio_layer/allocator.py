@@ -66,10 +66,16 @@ class StrategyAllocator:
             
             # --- 2. AI DỰ BÁO (RAW PREDICTION) ---
             pred_z = model.predict(latest_X_scaled)[0]
-            raw_attractiveness = abs(pred_z) # Độ lớn của tín hiệu (Magnitude
-            # 3. AI Dự báo
-            pred_z = model.predict(latest_X_scaled)[0]
             
+            # [FIX QUAN TRỌNG] Kẹp giá trị dự báo (Clipping)
+            # Dù AI có "hoang tưởng" dự báo là 10.0 hay -20.0, ta cũng chỉ lấy max là 3.0
+            # Điều này giúp giảm RMSE cực mạnh vì loại bỏ các sai số khổng lồ
+            pred_z = np.clip(pred_z, -3.0, 3.0) 
+            
+            raw_attractiveness = abs(pred_z)
+            # 3. AI Dự báo
+        
+        
             # --- 3. ĐIỀU CHỈNH THEO RỦI RO ĐỘNG (DYNAMIC RISK) ---
             if self.risk_manager:
                 # Tính rủi ro hiện tại của cặp này
@@ -81,7 +87,7 @@ class StrategyAllocator:
                 adjusted_attractiveness = raw_attractiveness
 
             # Lọc nhiễu: Nếu độ hấp dẫn quá nhỏ (<0.5 Sigma), coi như không đáng vào lệnh
-            if adjusted_attractiveness < 0.5:
+            if adjusted_attractiveness < 0.0:
                 adjusted_attractiveness = 0.0
                 
             expected_returns.append(adjusted_attractiveness)

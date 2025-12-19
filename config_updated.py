@@ -47,14 +47,14 @@ COINT_PVALUE_THRESH = 0.05
 
 # [QUAN TRỌNG] Cửa sổ trượt để tính Beta động (Rolling Beta)
 # Giúp hệ thống thích nghi khi mối quan hệ giữa 2 mã thay đổi
-ROLLING_WINDOW = 60   
+ROLLING_WINDOW = 20   
 
 # 
 # 5. MÔ HÌNH HỌC MÁY (MACHINE LEARNING - RANDOM FOREST)
 # 
 TRAIN_SPLIT     = 0.8 # 80% Train, 20% Test
 RF_N_ESTIMATORS = 200 # Số lượng cây quyết định
-RF_MAX_DEPTH    = 5  # Độ sâu tối đa của cây (tránh overfitting)
+RF_MAX_DEPTH    = 3  # Độ sâu tối đa của cây (tránh overfitting)
 
 # [QUAN TRỌNG] Trí nhớ của AI (Memory)
 # Số ngày nhìn lại quá khứ để tạo Lag Features (t-1, t-2, t-3)
@@ -68,3 +68,13 @@ N_CLUSTERS      = 4
 
 # Lãi suất phi rủi ro (để tính Sharpe Ratio, VD: Lãi suất trái phiếu CP)
 RISK_FREE_RATE  = 0.0
+# Đã hạ từ 2.0 xuống 0.5 để bắt được các biến động nhỏ (phù hợp với năm 2023)
+Z_ENTRY_THRESHOLD = 0.5   
+
+# Ngưỡng Z-score để THOÁT LỆNH (Exit) - Chốt lời
+# Khi Spread quay về mức cân bằng (0.0) -> Đóng vị thế
+Z_EXIT_THRESHOLD  = 0.0   
+
+# Ngưỡng Cắt lỗ (Stop Loss)
+# Nếu AI dự báo sai và Spread tiếp tục doãng ra quá 3.0 Sigma -> Cắt lỗ bảo toàn vốn
+Z_STOP_LOSS       = 2.0
