@@ -34,14 +34,9 @@ class DataHandler:
         # Thay vì lấy tất cả, hãy lọc thủ công hoặc dùng Correlation
         # Ví dụ: Chỉ lấy Z-score quá khứ và RSI
         keep_columns = [
-            'Spread_Z', 
-            'Spread_Z_Lag1', 
-            'Spread_Z_Lag2',
-            'Spread_Z_Lag3', # Thêm thử Lag 3 xem sao
-        
-            
-            
-            'Target'# Mục tiêu
+            'Spread_Z', 'Spread_Z_Lag1', 'Spread_Z_Lag2',  # Quán tính giá
+            'RSI_X', 'RSI_Y',                              # Sức mạnh quá mua/bán
+            'Target'                                       # Mục tiêu
         ]
 
         # Chỉ giữ lại các cột có trong danh sách trên (nếu tồn tại trong df)
