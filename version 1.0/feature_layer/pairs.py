@@ -69,7 +69,7 @@ class PairsIndicators:
         x = sm.add_constant(x) # Thêm hằng số chặn (intercept)
         
         model = sm.OLS(y, x).fit()
-        beta = model.params[1] # Hệ số góc
+        beta = model.params.iloc[1] # Hệ số góc
         
         # Tính Spread (Phần dư - Residual)
         # Đây chính là khoảng cách thực tế giữa 2 cổ phiếu sau khi đã cân chỉnh Beta

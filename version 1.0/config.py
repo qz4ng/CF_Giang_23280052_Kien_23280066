@@ -60,7 +60,7 @@ TRAIN_SPLIT = 0.8
 
 # Ngưỡng Z-score để VÀO LỆNH (Entry)
 # Khi chênh lệch giá (Spread) lệch quá 2.0 đơn vị chuẩn -> Mua/Bán
-Z_ENTRY_THRESHOLD = 1.0     
+Z_ENTRY_THRESHOLD = 0.8     
 
 # Ngưỡng Z-score để THOÁT LỆNH (Exit)
 # Khi chênh lệch quay về mức 0 (hoặc gần 0) -> Chốt lời
@@ -68,4 +68,4 @@ Z_EXIT_THRESHOLD  = 0.0
 
 # Ngưỡng Cắt lỗ (Stop Loss)
 # Nếu lệch quá xa (VD: 3.5), chứng tỏ nhận định sai -> Cắt lỗ ngay
-Z_STOP_LOSS = 3.5
+Z_STOP_LOSS = 3.0
